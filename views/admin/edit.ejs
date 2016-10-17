@@ -1,0 +1,21 @@
+<% include ../partial/header %>
+
+
+<h1 class='text-center'>Edit kBase Document</h1>
+<div class="container">
+	<form id='editDoc_form' class='form' method='POST' action='/admin/doc/edit'>
+		<input type='submit' class='btn btn-success pull-right' value='Update'>
+		<input type='text' name='doc[title]' class='form-control space' placeholder="Document Title" value="<%= doc.title %>">
+		<input type="text" name='doc[meta]' class="form-control space" placeholder="Meta Tags" value="<%= doc.meta %>">
+		<textarea name='doc[body]'><%= doc.body %></textarea>
+	</form>
+	
+</div>
+
+
+<script type="text/javascript">
+	var simplemde = new SimpleMDE();
+
+</script>
+
+<% include ../partial/footer %>
