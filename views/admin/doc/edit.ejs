@@ -3,10 +3,19 @@
 
 <h1 class='text-center'>Edit kBase Document</h1>
 <div class="container">
-	<form id='editDoc_form' class='form' method='POST' action='/admin/doc/edit'>
+	<form id='editDoc_form' class='form' method='POST' action='/admin/doc/<%=doc._id%>?_method=PUT'>
 		<input type='submit' class='btn btn-success pull-right' value='Update'>
 		<input type='text' name='doc[title]' class='form-control space' placeholder="Document Title" value="<%= doc.title %>">
-		<input type="text" name='doc[meta]' class="form-control space" placeholder="Meta Tags" value="<%= doc.meta %>">
+		<input type="text" name='doc[meta]' class="form-control space" placeholder="Summary" value="<%= doc.meta %>">
+        <% if(doc.category) { %>
+        <input type='hidden' value="<%=doc.category%>" id='docCat'>
+        <% } %>
+        <select id='catSelect' class='form-control' name='doc[category]'>
+            <option value="" disabled>No Category</option>
+            <% if(cats) cats.forEach(function (cat) { %>
+            <option value="<%= cat._id%>"> <%= cat.name %></option>
+            <% }) %>
+        </select>
 		<textarea name='doc[body]'><%= doc.body %></textarea>
 	</form>
 	
@@ -15,7 +24,10 @@
 
 <script type="text/javascript">
 	var simplemde = new SimpleMDE();
-
+    $(document).ready(function () {
+       $('#catSelect').val($('#docCat').val());      
+        
+    });
 </script>
 
 <% include ../partial/footer %>

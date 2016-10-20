@@ -1,0 +1,52 @@
+<% include partial/header %>
+<span id='curCat' class='hidden'><%= current %></span>
+<link rel='stylesheet' href='/show.css'>
+
+<div class='container'>
+    <h1 id='mainHeader' class='docHead'></h1>
+    <div id='catCorral'><h4>Sub-Categories: </h4></div>
+    
+    <div class='row'>
+    <h4><strong>&emsp;Available Documents: </strong></h4>
+    <% if(docs) docs.forEach( function (doc) { %>
+        <div class='col-md-3 col-sm-4'>
+            <div class='panel panel-default'>
+                <div class='panel-heading text-center'>
+                    <a href='/show/<%=doc._id%>'><%= doc.title %></a>
+                </div>            
+                <div class='panel-body'>
+                    <p><%= doc.meta%></p>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+    </div>
+</div>
+
+<div class='hidden'>
+    <table>
+        <% if (cats) cats.forEach (function (cat) { %>
+            <tr class='catData'>
+                <td class='cID'><%= cat._id %></td>
+                <td class='cName'><%= cat.name %></td>
+                <td class='cParent'><%= cat.parent %></td>
+            </tr>
+        <% }) %>
+    </table>
+</div>
+
+<script>
+    var myCat = $("#curCat").html();
+$('tr.catData').each( function () {
+    if($(this).find('.cID').html() == myCat) {
+        $('#mainHeader').html($(this).find('.cName').html());
+    } else if($(this).find('.cParent').html() == myCat){
+        var cName = $(this).find('.cName').html();
+        var cID = $(this).find('.cID').html();
+        var tmp = '<a href="/show/cat/' + cID + '" class="btn btn-primary">' + cName + '</a>';
+        $('#catCorral').append(tmp);
+    }
+});
+
+</script>
+<% include partial/footer %>

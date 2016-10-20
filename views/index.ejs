@@ -11,6 +11,12 @@
 		<div class='col-sm-1 col-md-2'></div>
 	</div>	
 	
+	<% if(docs){ docs.forEach(function(doc){ %>
+		<div>
+			<a href='/show/<%= doc._id%>'><%= doc.title %></a>
+		</div>
+	<% })} %>
+
 </div>
 
 

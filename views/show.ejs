@@ -1,13 +1,57 @@
 <% include partial/header %>
-
+<link rel='stylesheet' href='/show.css'>
 
 <div class='container'>
-	<%- output %>
+    <ol class='breadcrumb'>
+        
+    </ol>
+    <h1 class='docHead'> <%= doc.title %> </h1>
+	<div class='row'>		
+        <div id='docCat' class='hidden'><%= doc.category %></div>
+    <div class='col-md-1'></div>    
+    <div class='col-md-10'>
+        <%- output %>
+    </div>    
+    <div class='col-md-1'></div>    
+	</div>
+	
 </div>
 
+<div class='hidden'>
+    <table>
+    <% if(cats) cats.forEach (function (cat) { %>
+        <tr class='catData'>
+            <td class='cID'><%=cat._id%></td>
+            <td class='cName'><%=cat.name%></td>
+            <td class='cParent'><%=cat.parent%></td>
+        </tr>    
+    <% }) %>
+    </table>
+</div>
 
-
-
-
+<script>    
+    var docCat = $('#docCat').html();
+    var crumbs;    
+    findCats(docCat);
+    var homeCrumb = '<li><a href="/">Home</a></li>';
+    $('.breadcrumb').prepend(homeCrumb);
+    
+    function crumbLink (cID, cName) {
+        var tmp = '<li><a href="/show/cat/' + cID + '">' + cName + "</a></li>";
+        return tmp;
+    }
+    
+    function findCats (catID) {
+        $('tr.catData').each( function () {
+           var tmpID = $(this).find('.cID').html();
+            if(tmpID == catID) {
+                var tmpName = $(this).find('.cName').html();
+                var tmpParent = $(this).find('.cParent').html();
+                $('.breadcrumb').prepend(crumbLink(tmpID, tmpName)); 
+                if(tmpParent != ""){findCats(tmpParent)}
+            }
+        });
+    }
+</script>
 
 <% include partial/footer %>
