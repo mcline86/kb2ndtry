@@ -1,0 +1,44 @@
+.docHead {
+    background-color: #ff9932;
+    padding:15px;
+    margin-bottom: 40px;
+    font-weight:bold;
+    color:#fff;
+    text-shadow: 1px 1px 0 #000,
+        -1px 1px 0 #000,
+        1px -1px 0 #000,
+        -1px -1px 0 #000;
+    border-radius: 5px;
+}
+
+.row ol li {
+    
+    border: 1px solid #fff;
+    padding: 3px;
+    margin-top: 5px;
+    font-size: 1.5em;
+    max-width:400px;
+    transition: all .5s;
+}
+
+.breadcrumb a {
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 40px;
+    background: cornflowerblue;
+    font-weight: bold;
+    padding: 7px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+#catCorral {
+    margin-bottom: 40px;
+    margin-top: -25px;
+}
+
+#catCorral a {
+    margin-left: 10px;
+}

@@ -1,12 +1,31 @@
 .hcl_logo {
-	margin: 40px;
+	margin-bottom: 40px;
+    margin-left: -30px;
+    width: 50%;
 }
 
 
-#newDoc_form input{
-	margin-bottom: 15px;
+#newDoc_form input,
+#newDoc_form select,
+#editDoc_form input, 
+#editDoc_form select {
+    margin-bottom: 15px;
 }
 
-#editDoc_form input {
-	margin-bottom: 15px;
+#newCat input {
+    margin-bottom: 15px;
 }
+
+
+
+.catData:hover > td {
+    color:aqua;
+    background-color: black;
+    cursor:pointer;
+}
+
+#catScrollArea {
+    overflow-y: scroll;
+    max-height: 100px;
+}
+
