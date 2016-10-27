@@ -16,12 +16,12 @@
     margin-bottom: 15px;
 }
 
+table.table-hover>tbody>tr:hover {
+    background-color: #CCC;    
+}
 
-
-.catData:hover > td {
-    color:aqua;
-    background-color: black;
-    cursor:pointer;
+table.table-hover>tbody>tr:hover>td {
+    border-top: 1px solid #999;
 }
 
 #catScrollArea {
@@ -29,3 +29,6 @@
     max-height: 100px;
 }
 
+.topPanel .panel-body {
+    font-size: 1.5em;
+}

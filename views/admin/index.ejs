@@ -2,35 +2,249 @@
 
 <div class='container'>
 	<div class='row'>
-		<table class='table table-hover'>
-			<thead>
-				<th>#</th>
-				<th>ID</th>
-				<th>Title</th>
-				<th>Created</th>
-			</thead>
-			<% if(docs){ docs.forEach(function(doc, index){ %>
-				<tr>
-					<td><%= index %></td>
-					<td><%= doc._id %></td>
-					<td><a href='/admin/doc/<%= doc._id %>'><%= doc.title %></a></td>
-					<td class='rawDate'><%= doc.created %></td>
-				</tr>
-			<% })} %>
-		</table>
+		<h1> Admin Control Panel </h1><br><br>
+        
+        <div class='col-md-2 col-sm-2'>
+            <div id='totDocs' class='panel panel-info topPanel'>
+                <div class='panel-heading'>
+                    <strong>Total Documents:</strong>
+                </div>
+                <div class='panel-body text-center'></div>
+            </div>
+        </div>
+        
+        <div class='col-md-2 col-sm-2'>
+            <div id='totViews' class='panel panel-info topPanel'>
+                <div class='panel-heading'>
+                    <strong>Document Views:</strong>
+                </div>
+                <div class='panel-body text-center'></div>
+            </div>
+        </div>
+        
+        <div class='col-md-2 col-sm-2'>
+            <div id='totCats' class='panel panel-info topPanel'>
+                <div class='panel-heading'> <strong> Total Categories: </strong> </div>
+                <div class='panel-body text-center'></div>
+            </div>
+        </div>
+        
+        <div class='col-md-2 col-sm-2'>
+            <div id='pHolder1' class='panel panel-info topPanel'>
+                <div class='panel-heading'> <strong> I'm a Place Holder: </strong> </div>
+                <div class='panel-body text-center'> 0 </div>
+            </div>
+        </div>
+        
+        <div class='col-md-2 col-sm-2'>
+            <div id='pHolder2' class='panel panel-info topPanel'>
+                <div class='panel-heading'> <strong> I'm a Place Holder: </strong> </div>
+                <div class='panel-body text-center'> 0 </div>
+            </div>
+        </div>
+        
+        <div class='col-md-2 col-sm-2'>
+            <div id='pHolder3' class='panel panel-info topPanel'>
+                <div class='panel-heading'> <strong> I'm a Place Holder: </strong> </div>
+                <div class='panel-body text-center'> 0 </div>
+            </div>
+        </div>
+        
+        
+        <div class='col-md-6 col-sm-6'>
+            <div id='recentDocs' class='panel panel-info'>
+                <div class='panel-heading'>
+                    <strong>Recent Documents:</strong>
+                </div>
+                <div class='panel-body text-center'>
+                    <table class='table table-striped'>
+                        <thead>
+                            <th> Title </th>
+                            <th> Views </th>
+                            <th> Helpful </th>
+                            <th> Date </th>
+                        </thead>                        
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class='col-md-6 col-sm-6'>
+            <div id='topCats' class='panel panel-info'>
+                <div class='panel-heading'>
+                    <strong> Top Categories: </strong> 
+                </div>
+                <div class='panel-body'>
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Name</th>
+                            <th width="30%"># of Doc's</th>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
 	</div>
 </div>
 
 
+
+
+<div class='hidden'>
+<!--  Document Data  -->
+    <table>  
+        <% if(docs){ docs.forEach(function(doc, index){ %>
+            <tr class='docData'>
+                <td class='docViews'><%= doc.views %></td>
+                <td class='docID'><%= doc._id %></td>
+                <td class='docTitle'><%= doc.title %></td>
+                <td class='docDate'><%= doc.created %></td>
+                <td class='docHelp'><%= doc.helpful %></td>
+                <td class='docCat'><%= doc.category %></td>
+            </tr>
+        <% })} %>
+    </table>
+<!--  Category Data  -->
+    <table>
+        <% if (cats) cats.forEach (function (cat) { %>
+            <tr class='catData'>
+                <td class='cID'><%= cat._id %></td>
+                <td class='cName'><%= cat.name %></td>
+                <td class='cParent'><%= cat.parent %></td>
+            </tr>
+        <% }) %>
+    </table>
+</div>
+
+
 <script type="text/javascript">
+    
+    //Global variables for cp
+    
+    var docArray = [];
+    var catArray = [];
+    var recentDocs = [];
+    var topCats = [];
+    
 $(document).ready(function(){
-
-	$('.rawDate').each(function(){
-		var tmp = $(this).html();
-		$(this).html(moment(tmp).format("MM/DD/YYYY"));
-	});
-
+        
+    //Copy docData table into docArray
+    $('tr.docData').each(function () {                
+        var tmpDoc = {
+            title    : $(this).find(".docTitle").html(),
+            _id      : $(this).find(".docID").html(),
+            created  : $(this).find(".docDate").html(),
+            helpful  : parseInt($(this).find(".docHelp").html()),
+            views    : parseInt($(this).find(".docViews").html()),
+            category : $(this).find(".docCat").html()
+        };
+        docArray.push(tmpDoc);
+    });
+    
+    //Copy catData Table into catArray
+    $('tr.catData').each(function () {        
+       var tmpCat = {
+           _id    : $(this).find('.cID').html(),
+           name   : $(this).find('.cName').html(),
+           parent : $(this).find('.cParent').html()
+       };
+        catArray.push(tmpCat);
+    });
+	
+    var totViews = 0;
+    docArray.forEach(function(doc) {
+       totViews += doc.views; 
+    });
+    
+    
+    
+    
+    //Build recent Document Array
+    docArray.forEach( function(doc) {
+       var  date = moment();
+        console.log(date.diff(doc.created, "day"));
+        if(recentDocs.length > 0){
+            var inserted = false;
+            recentDocs.forEach( function (d, index) {                
+                if(!inserted && date.diff(d.created, "day") > date.diff(doc.created, "day")){
+                    recentDocs.splice(index, 0, doc);                    
+                    inserted = true;
+                }
+            });
+            if(!inserted && recentDocs.length < 10) { recentDocs.push(doc); }
+        } else {
+            recentDocs.push(doc);
+        }
+    });
+    
+    
+    
+    catArray.forEach( function (cat) {
+       var inserted = false;
+       if (topCats.length > 0) {
+           topCats.forEach( function(tCat, index) {
+               if (!inserted) {
+                   if (docsInCat(cat._id) > docsInCat(tCat._id)) {
+                        topCats.splice(index, 0, cat);
+                       inserted = true;
+                   }
+               }
+           });
+       } else {
+           topCats.push(cat);
+           inserted = true;
+           
+       }
+        if(!inserted && topCats.length < 10){ topCats.push(cat);}
+    });
+    
+    function displayCats () {
+        topCats.forEach( function(cat, index) {
+            if (index < 10) {
+                var row = "<tr><td>" + cat.name + "</td><td class='text-center'>" + docsInCat(cat._id) + "</td></tr>";
+                $('#topCats table').append(row);
+            }
+        });
+    }
+    
+    $(document).ready(function () { //code in this callback will be called after everything above has finished
+        
+        $('#totDocs').find('.panel-body').html(docArray.length);
+        $('#totCats').find('.panel-body').html(catArray.length);
+        $('#totViews').find('.panel-body').html(totViews);
+        displayRecent();
+        displayCats();
+    });
 });
+    
+    function displayRecent (){
+        recentDocs.forEach( function(rDoc, index) {
+           if (index < 10) {
+               var tdS = "<td>";
+               var tdE = "</td>";
+               var tmp = "<tr>" + tdS + rDoc.title.substring(0,15) + "..." + tdE;
+               tmp += tdS + rDoc.views + tdE;
+               if (rDoc.helpful) { 
+                   tmp += tdS + rDoc.helpful + tdE;
+               } else {
+                   tmp += tdS + " " + tdE;
+               }
+               tmp += tdS + moment(rDoc.created).format("MM/DD/YYYY") + tdE + "</tr>";
+              $('#recentDocs table').append(tmp); 
+           } 
+        });
+    }
+    
+    function docsInCat (catID) {
+        var count = 0;
+        docArray.forEach( function (doc) {
+            if(String(doc.category) == String(catID)){
+                count++;                
+            }            
+        });
+        return count;
+    }
 
 </script>
 

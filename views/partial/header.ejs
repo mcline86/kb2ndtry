@@ -24,7 +24,7 @@
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-		      <a class="navbar-brand" href="#">
+		      <a class="navbar-brand" href="/">
 		        kBase
 		      </a>		      
 		    </div>
@@ -33,3 +33,16 @@
 		     </ul>
 		  </div>
 		</nav>
+        
+<div class='container'>
+    <% if(error && error.length > 0) { %>
+        <div class='alert alert-danger'>
+           <span class='glyphicon glyphicon-exclamation-sign'></span> <%= error %>
+        </div>
+    <% } %>
+    <% if(info && info.length > 0) { %>
+        <div class='alert alert-info'>
+           <span class='glyphicon glyphicon-ok-sign'></span> <%= info %>
+        </div>
+    <% } %>
+</div>

@@ -34,8 +34,21 @@
 		    </div>
 		    <ul class='nav navbar-nav'>
 		      	<li><a href="/admin">Admin Home</a></li>
-		      	<li><a href="/admin/doc/new">New</a></li>
+		      	<li><a href="/admin/doc/">Documents</a></li>
 		      	<li><a href="/admin/cat">Categories</a></li>
 		     </ul>
 		  </div>
 		</nav>
+        
+<div class='container'>
+    <% if(error && error.length > 0) { %>
+        <div class='alert alert-danger'>
+           <span class='glyphicon glyphicon-exclamation-sign'></span> <%= error %>
+        </div>
+    <% } %>
+    <% if(info && info.length > 0) { %>
+        <div class='alert alert-info'>
+           <span class='glyphicon glyphicon-ok-sign'></span> <%= info %>
+        </div>
+    <% } %>
+</div>

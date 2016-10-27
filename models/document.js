@@ -7,8 +7,10 @@ var docSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category"
         },
-    created : {type: Date, default: Date.now},
+    created : { type: Date, default: Date.now },
     updated : Date,
+    views   : { type: Number, default: 0 },
+    helpful : { type: Number, default: 0 },
     body    : String 
 });
 

@@ -1,29 +1,27 @@
 <% include ../partial/header %>
 
 <div class='container'>
-    <div class='row'>
-        <div class='col-md-2'></div>
-        <div class='col-md-8'>
-            <h1 class='text-center'> Category Manager </h1>
-            <button id='newCatButton' class='btn btn-primary'>New</button>
-        </div>
-        <div class='col-md-2'></div>
+    <div class='row'>   
+        
+            <h1> Category Manager </h1>
+            <button id='newCatButton' class='btn btn-success'>Create New</button>
+        
     </div>
     
     <div id='catTable'>
     <table class='table table-hover' width='700px'>
         <thead>
             <th>#</th>
+            <th width='60%'>Name</th>
             <th>ID</th>
-            <th>Name</th>
             <th>Parent</th>
         </thead>
         <tbody id='catScrollArea'>
         <% if(cats) cats.forEach (function (cat, index) { %>
             <tr class='catData'>
-                <td><%= index %> <button class='editButton btn btn-warning' data-toggle='modal' data-target='#editCat' data-myid="<%=cat._id%>" data-myname="<%=cat.name%>" data-myparent="<%=cat.parent%>">Edit</button> </td>
+                <td><%= index %> </td>                
+                <td class='cName'><a href='#' data-toggle='modal' data-target='#editCat' data-myid="<%=cat._id%>" data-myname="<%=cat.name%>" data-myparent="<%=cat.parent%>"> <%= cat.name %></a></td> <!-- Category Name-->
                 <td class='cID'><%= cat._id %></td> <!-- Object ID -->
-                <td class='cName'><%= cat.name %></td> <!-- Category Name-->
                 <td class='cParent'><%= cat.parent %></td> <!-- Parent Object ID -->
             </tr>
         <% }) %>
@@ -73,13 +71,13 @@
             <input class='form-control' type='text' name='cat[name]' placeholder='Name of Category'>
             <div class='form-group'>
                 <label>Parent</label>
-                <select class='form-control' name='cat[parent]'>
+                <select id='edParent' class='form-control' name='cat[parent]'>
                     <option value="" style='color:red'><strong>No Parent</strong></option>
                 </select>
             </div>            
       </div>
       <div class="modal-footer">
-            <button class='btn btn-success pull-right'>Create</button>
+            <button class='btn btn-success pull-right'>Update</button>
         </form>
       </div>
     </div><!-- /.modal-content -->
@@ -111,9 +109,15 @@ $(document).ready(function () {
            i++;    
         });        
         
-        $(this).find('form').attr('action', "/admin/cat/" + catID);
+        $(this).find('form').attr('action', "/admin/cat/" + catID + "?_method=PUT");
         $(this).find('form input').val(catName);
         $(this).find('select').prop('selectedIndex', cpIndex + 1);
+    });
+    
+    $('#editCat form').submit(function() {
+        if($('#edParent').val() === "" || $('#edParent').val() === undefined) {
+            $('#edParent').removeAttr('name');
+        }
     });
     
     
@@ -123,9 +127,23 @@ $(document).ready(function () {
         optn.innerHTML = $(this).find('.cName').html();
         $('#newCat select').append(optn);
         $('#editCat select').append(optn);
+        
+        var tmp = findParent($(this).find('.cParent').html());
+        console.log(tmp);
+        $(this).find('.cParent').html(tmp);
     });
     
-    
+    function findParent(pID) {
+        $('tr.catData').each(function(){
+            console.log('Checking. . .');
+           if(pID == $(this).find('.cID').html()){
+               console.log("Gotcha!");
+               var tmp = $(this).find('.cName').html();
+               console.log(tmp);
+               return tmp;
+           } 
+        });
+    }
     
 });
     
