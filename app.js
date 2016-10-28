@@ -169,12 +169,6 @@ app.post("/admin/doc/new", function (req, res) {
 	});
 });
 
-app.get("/api/doc/:id", function(req, res, next){
-   kbDoc.findById(req.params.id, function(err, doc){
-      if(err) return next(err);
-       res.json(doc);
-   }); 
-});
 
 app.get("/admin/doc/:id", function (req, res) {
 	kbDoc.findById(req.params.id, function (err, doc) {
@@ -207,6 +201,34 @@ app.put("/admin/doc/:id", function (req, res) {
 	});
 });
 
+app.get("/api/doc/:id", function(req, res, next){
+   kbDoc.findById(req.params.id, function(err, doc){
+      if(err) return next(err);
+       res.json(doc);
+   }); 
+});
+
+app.get("/api/doc/all", function(req, res, next){
+   kbDoc.find({}, function(err, docs){
+      if(err) return next(err);
+       res.json(docs);
+   }); 
+});
+
+
+app.get("/api/cat/:id", function(req, res, next){
+   Category.findById(req.params.id, function(err, cat){
+      if(err) return next(err);
+       res.json(cat);
+   }); 
+});
+
+app.get("/api/cat/all", function(req, res,next){
+   Category.find({}, function(err, cats){
+      if(err) return next(err);
+       res.json(cats);
+   }); 
+});
 
 //--------------------------------------------
 //  kBase Category Create / Edit / Destroy
