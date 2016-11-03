@@ -32,3 +32,24 @@ table.table-hover>tbody>tr:hover>td {
 .topPanel .panel-body {
     font-size: 1.5em;
 }
+
+.manTitle {
+    font-size: 1.75em;
+    font-weight: bold;
+    padding: 15px;
+}
+
+ul.pagination {
+    padding:0;
+    margin:0;
+}
+
+#catDelete input {
+    margin-left: 15px;
+}
+
+.panel-body img {
+    opacity: 75%;
+    width: 20%;
+   margin: 25px 40%;
+}

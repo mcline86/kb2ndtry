@@ -1,5 +1,39 @@
 <% include partial/header %>
+<style>
+    .slideOutMenu {
+        position: absolute;
+        background: purple;
+        box-shadow: 3px 3px 6px #444;
+        height: 700px;
+        width: 200px;
+        left: 0;
+        top: 30px;
+        transition: all .4s;
+    }
 
+    #slideMenuButton {
+        padding: 0px;
+        position:absolute;
+        right:0px;
+        top:0px;
+        margin-right: -50px;
+        background: purple;
+        font-size: 1.5em;
+        color:#fff;
+        box-shadow: 3px 3px 4px #444;
+        cursor: pointer;
+    }
+    
+    #slideMenuButton span {
+        margin: 15px;
+        margin-left: 20px;
+    }
+    
+    .justBarelyHidden {
+        left: -203px;
+    }
+    
+</style>
 
 <div class='container'>
 	<div class='text-center'><img class='hcl_logo' src="images/hcl-logo.png"></div>
@@ -18,6 +52,23 @@
 	<% })} %>
 
 </div>
+
+
+<div class='slideOutMenu justBarelyHidden'>
+    <div id='slideMenuButton'>
+        <span class='glyphicon glyphicon-menu-hamburger'></span>
+    </div>
+
+
+</div>
+
+
+<script>
+$('#slideMenuButton').click( function () {
+   $('.slideOutMenu').toggleClass('justBarelyHidden'); 
+});
+
+</script>
 
 
 <% include partial/footer %>

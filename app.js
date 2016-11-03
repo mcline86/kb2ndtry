@@ -196,9 +196,34 @@ app.put("/admin/doc/:id", function (req, res) {
             res.redirect("/admin");
 		} else {
             req.flash("info", "Your document has been updated, please choose another to edit.")
-			res.redirect("/admin");
+			res.redirect("/admin/doc");
 		}
 	});
+});
+
+app.delete("/admin/doc/delete/:id", function (req, res) {
+    kbDoc.findByIdAndRemove(req.params.id, function (err) {
+       if (err) {
+          req.flash("error", err.toString());
+           res.redirect("/admin/doc");
+       } else {
+           req.flash("info", "Document has been deleted, Thank You");
+           res.redirect("/admin/doc");
+       }
+    });
+});
+
+//-------------------------------------------
+//  API Routes
+//-------------------------------------------
+
+
+
+app.get("/api/doc", function (req, res, next) {
+   kbDoc.find({}, function(err, docs){
+      if(err) return next(err);
+       res.json(docs);
+   }); 
 });
 
 app.get("/api/doc/:id", function(req, res, next){
@@ -208,25 +233,17 @@ app.get("/api/doc/:id", function(req, res, next){
    }); 
 });
 
-app.get("/api/doc/all", function(req, res, next){
-   kbDoc.find({}, function(err, docs){
+app.get("/api/cat", function(req, res,next){
+   Category.find({}, function(err, cats){
       if(err) return next(err);
-       res.json(docs);
+       res.json(cats);
    }); 
 });
-
 
 app.get("/api/cat/:id", function(req, res, next){
    Category.findById(req.params.id, function(err, cat){
       if(err) return next(err);
        res.json(cat);
-   }); 
-});
-
-app.get("/api/cat/all", function(req, res,next){
-   Category.find({}, function(err, cats){
-      if(err) return next(err);
-       res.json(cats);
    }); 
 });
 
