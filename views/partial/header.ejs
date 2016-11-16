@@ -14,6 +14,7 @@
 
 
         <link href='/default.css' rel='stylesheet'>
+        <link href='/nav.css' rel='stylesheet'>
 	</head>
 	<header>
 		<title>HCL Knowledgebase</title>
@@ -22,15 +23,50 @@
 	<body>
 
         
-<div class='container'>
-    <% if(error && error.length > 0) { %>
-        <div class='alert alert-danger'>
-           <span class='glyphicon glyphicon-exclamation-sign'></span> <%= error %>
+        <div class='container'>
+            <% if(error && error.length > 0) { %>
+                <div class='alert alert-danger'>
+                   <span class='glyphicon glyphicon-exclamation-sign'></span> <%= error %>
+                </div>
+            <% } %>
+            <% if(info && info.length > 0) { %>
+                <div class='alert alert-info'>
+                   <span class='glyphicon glyphicon-ok-sign'></span> <%= info %>
+                </div>
+            <% } %>
         </div>
-    <% } %>
-    <% if(info && info.length > 0) { %>
-        <div class='alert alert-info'>
-           <span class='glyphicon glyphicon-ok-sign'></span> <%= info %>
+
+
+        <div class='slideOutMenu justBarelyHidden'>
+            <div id='slideMenuButton'>
+                <span class='glyphicon glyphicon-menu-hamburger'></span>
+            </div>   
+                    <h4>Health Care<br>Logistics</h4>
+                    <br>
+                    <ul class='sMenu'>
+                        <li><a href="/">Home</a></li>
+                        <li>Browse</li>
+                        <li>Resource Form</li>
+                        <li>Help Ticket</li>
+                        <li>Most Viewed</li>
+                        <li>Most Helpful</li>
+                        <li><a href='/admin/'>Admin</a></li>
+                    </ul> 
         </div>
-    <% } %>
-</div>
+        
+        
+    <script>
+        $('body').on('click', '#slideMenuButton', function () {
+           $('.slideOutMenu').toggleClass('justBarelyHidden'); 
+        });
+
+        $('.slideOutMenu').mouseleave( function () {
+          $(this).addClass('justBarelyHidden');
+        });
+        
+        $('.sMenu li').on('click', function () {
+            var href = $(this).find('a').attr('href');
+            $(location).attr('href', href);
+        });
+    </script>
+    

@@ -1,133 +1,97 @@
 <% include partial/header %>
 <style>
-    .slideOutMenu {
-        position: absolute;
-        background: purple;
-        box-shadow: 3px 2px 4px rgba(50, 50, 50, .85);
-        height: 700px;
-        width: 200px;
-        left: -30px;
-        top: 30px;
-        transition: all .75s;
-        border-radius: 0 0 10px 0;
+    .resultBox {
+        border: 1px solid rgba(100, 100, 100, .75);
+        border-left:5px solid #FF9A26;
+        border-right:5px solid #FF9A26;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom:10px;
+        position:relative;
+        transition: box-shadow .5s;
+        cursor: pointer;
     }
-
-    #slideMenuButton {
-        padding: 0px;
+    
+    .resultBox:hover {
+        box-shadow: 0 0 10px rgba(43, 90, 161, .75);
+    }
+    
+    .resultBox:hover {
+        border-left: 5px solid #2B5AA1;
+        border-right: 5px solid #2B5AA1;
+    }
+    
+    .resultBox h4 {
+        font-weight:bold;
+        margin-bottom:15px;
+        color: #2B5AA1;
+    }
+    
+    .resultBox p {
+        font-size: .85em;
+        margin-bottom:0;
+        width:90%;
+    }
+    
+    .rViews {
         position:absolute;
-        right:0px;
-        top:0px;
-        margin-right: -50px;
-        background: purple;
-        font-size: 1.5em;
-        color:#fff;
-        box-shadow: 3px 2px 4px rgba(50, 50, 50, .85);
-        cursor: pointer;
-    }
-    
-    #slideMenuButton span {
-        margin: 15px;
-        margin-left: 20px;
-    }
-    
-    .justBarelyHidden {
-        left: -203px;
-    }
-    
-    .slideOutMenu h4 {
-        padding-left: 25px;
-        text-align: center;
-        font-size: 1em;
-        color:#fff;
-    }
-    
-    ul.sMenu {
-        list-style: none;        
-        margin-top: 25px;
-        
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#800080+26,444444+100 */
-background: rgb(128,0,128); /* Old browsers */
-background: -moz-linear-gradient(left,  rgba(128,0,128,1) 26%, rgba(68,68,68,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(left,  rgba(128,0,128,1) 26%,rgba(68,68,68,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to right,  rgba(128,0,128,1) 26%,rgba(68,68,68,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#800080', endColorstr='#444444',GradientType=1 ); /* IE6-9 */
-    }
-    
-    ul.sMenu li:last-of-type {
-        border-bottom: 1px solid #333;
-        box-shadow: 0 1px 0 rgba(250, 250, 250, .35);
-    }
-    
-    ul.sMenu li:first-of-type {
-        border-top: 1px solid rgba(250, 250, 250, .35);
-        box-shadow: 0 -1px 0 #333,
-                    0 2px 0 rgba(250, 250, 250, .35);
-    }
-    
-    ul.sMenu li {
-        padding: 5px;
-        cursor: pointer;
-        border-top: 1px solid #333;
-        color:#000;
-        transition: all .75s;
-        box-shadow: 0 2px 0 rgba(250, 250, 250, .35);
-        font-weight: bold;
-
-    }
-    
-    ul.sMenu li:hover {
+        top:15px;
         color: #fff;
-        padding: 15px;
-        font-size: 1.2em;
+        right:10px;
+        font-size: .75em;
+       
+        padding:5px;
+        border-radius: 10px;
+        background-color: #2B5AA1;
     }
     
+    .Rating {
+        position:absolute;
+        bottom: 10px;
+        right: 10px;
+    }
 </style>
+
+
+
 
 <div class='container'>
 	<div class='text-center'><img class='hcl_logo' src="images/hcl-logo.png"></div>
-	<div class="row">
-		<div class='col-sm-1 col-md-2'></div>
-		<div class='col-sm-10 col-md-8'>
-			<input class='form-control' type='text' placeholder='Search'>
-		</div>
-		<div class='col-sm-1 col-md-2'></div>
+	<div class="row">	
+			<form class='form'>
+                <span class='col-md-1'></span>
+                <div class='col-md-9'>
+                    <input width="90%" class='form-control' type='text' placeholder='Looking for answers?'>
+                </div>                
+                <span class='col-md-1'>
+                    <input type='submit' class='btn btn-primary' value='Search'> 
+                </span>                
+            </form>		
 	</div>	
-	
-	<% if(docs){ docs.forEach(function(doc){ %>
-		<div>
-			<a href='/show/<%= doc._id%>'><%= doc.title %></a>
-		</div>
-	<% })} %>
-
+	<hr>    
+        <% docs.forEach ( function (doc) { %>
+            <div class='resultBox'>
+                <h4><%= doc.title %></h4>
+                <p><%= doc.meta %></p>
+                <span class='rViews'><strong>Views :</strong> <%= doc.views %></span>
+                <span class='docID hidden'><%= doc._id %></span>
+                <span class='Rating'><strong>Helpful</strong></span>
+            </div>
+        <% }) %>
 </div>
 
-
-<div class='slideOutMenu justBarelyHidden'>
-    <div id='slideMenuButton'>
-        <span class='glyphicon glyphicon-menu-hamburger'></span>
-    </div>
-
-    
-            <h4>HealthCare Logistics</h4>
-            <br>
-            <ul class='sMenu'>
-                <li>Categories</li>
-                <li>Resource Form</li>
-                <li>Help Ticket</li>
-                <li>Categories</li>
-                <li>Categories</li>
-                <li>Categories</li>
-            </ul> 
-
-</div>
 
 
 <script>
-$('#slideMenuButton').click( function () {
-   $('.slideOutMenu').toggleClass('justBarelyHidden'); 
+$('.resultBox').on('click', function () {
+    var ID = $(this).find('.docID').html();
+    var tmp = "/show/" + ID;
+    $(location).attr('href', tmp);
 });
 
 </script>
+
+
 
 
 <% include partial/footer %>
